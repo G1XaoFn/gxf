@@ -1,0 +1,23 @@
+Value name (\S+)
+Value type (\S+)
+Value interval (\d+)
+Value timeout (\d+)
+Value send_string (\S+)
+Value receive_string (\S+)
+Value receive_disable_string (\S+)
+Value reverse (\S+)
+Value transparent (\S+)
+Value slow-ramp-time (\S+)
+
+Start
+ ^\s*ssl_cli link_monitor monitor {\s*name="${name}"} add -> Monitor
+
+Monitor
+ ^\s*ssl_cli link_monitor monitor\[ name="\S+"\] base type {${type}}\s*
+ ^\s*ssl_cli link_monitor monitor\[ name="\S+"\] base interval {${interval}}
+ ^\s*ssl_cli link_monitor monitor\[ name="\S+"\] base timeout {${timeout}}
+ ^\s*echo "${send_string}<%SSL_INPUT_END%>" \| ssl_cli link_monitor monitor\[ name="\S+"\] connect_ext send_msg
+ ^\s*ssl_cli link_monitor monitor\[ name="\S+"\] connect_ext recv_include {"${receive_string}"}
+ ^\s*ssl_cli link_monitor monitor\[ name="\S+"\] connect_ext close_send_msg {"${receive_disable_string}"}
+ ^#\s*ssl_cli link_monitor monitor {\s*name="\S+"} add -> Record Start
+# ^#\s*ssl_cli save -> Record Start

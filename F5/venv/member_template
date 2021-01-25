@@ -1,0 +1,31 @@
+Value Filldown pool_name (\S*)
+Value member_name (\S*)
+Value description (.*)
+Value member_ip (\S*)
+Value member_port (\d+)
+#不知道长啥样
+Value member_dmz_ip ()
+Value state (\w+)
+Value disable (session user-disabled)
+Value down (state user-down)
+Value fullpath (/(\w+/)*)
+Value member_create_time (\S*)
+
+Start
+ ^\s*ltm pool /(\w+/)*${pool_name}\s*{ -> Pool
+
+Pool
+ ^\s*members\s*{ -> Member
+ ^#a new data table begin: -> Start
+
+Member
+ ^\s*${fullpath}${member_name}:${member_port}\s*{ -> Inner
+ ^#a new data table begin: -> Start
+
+Inner
+ ^\s*description\s*${description}
+ ^\s*address\s*${member_ip}
+ ^\s*creation-time\s*${member_create_time}
+ ^\s*${disable}
+ ^\s*${down}
+ ^\s*} -> Record Member

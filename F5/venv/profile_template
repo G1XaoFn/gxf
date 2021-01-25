@@ -1,0 +1,6 @@
+Value name (\S*)
+Value profile (\S*)
+
+Start
+ ^\s*ltm profile\s*${profile}\s+${name}\s*{
+ ^#a new data table begin: -> Record Start

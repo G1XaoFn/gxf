@@ -1,0 +1,59 @@
+Value vs_name (\w+)
+#in profile
+Value vs_type (\w+)
+#从完整路径中处理,之后用python的re解决
+Value partition (\w+)
+Value destinationIp (\d+\.\d+\.\d+\.\d+)
+#不知道长啥样
+Value destinationDMZIp (\d+\.\d+\.\d+\.\d+)
+Value destinationPort (\d+)
+Value ipprotocol (\w+)
+Value fullpath (/(\w+/)+)
+Value pool_id (.+)
+Value persistence_id (.+)
+Value snatpool_id (\w+)
+Value create_time (.+)
+Value List profiles (.*)
+Value description (.*)
+Value vs_source (.*)
+Value vs_state (disabled)
+
+Start
+ ^ltm\s+virtual ${fullpath}${vs_name} -> Vs
+
+Vs
+ ^\s*destination\s*/(\w+/)+${destinationIp}:${destinationPort}
+ ^\s+ip-protocol\s+${ipprotocol}
+ ^\s+persist\s*{ -> Persist
+ ^\s+pool\s+/(\w+/)+${pool_id}
+ ^\s*source-address-translation\s*{ -> Snatpool
+ #profiles:
+ ^\s*profiles\s*{ -> Profile
+ ^\s*creation-time\s+${create_time}
+ ^\s*description\s*${description}\s*
+ ^\s*source\s+${vs_source}\s*
+ ^\s*${vs_state}\s*
+ ^#a new data table begin: -> Record Start
+
+Persist
+ ^\s+/(\w+/)*${persistence_id}\s*{ -> Persist_1
+ ^\s*} -> Vs
+
+Persist_1
+ ^\s*} -> Persist
+ ^.*{ -> Persist_2
+
+Persist_2
+ ^\s*} -> Persist_1
+
+Snatpool
+ ^\s+pool\s+/(\w+/)+${snatpool_id}
+ ^\s*} -> Vs
+
+Profile
+ ^\s*${profiles}\s+{\s*}\s*
+ ^.*{ -> Profile_1
+ ^\s*} -> Vs
+
+Profile_1
+ ^\s*} -> Profile

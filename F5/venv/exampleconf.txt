@@ -1,0 +1,38 @@
+ltm virtual /Common/VS_ABC_159_8081 {
+    destination /Common/21.86.79.159:8081
+    ip-protocol tcp
+    mask 255.255.255.255  
+    persist {
+        /Common/source_addr {
+            default yes
+        }
+    }
+    pool /Common/Pool_ABC_159_8081
+    profiles {
+        /Common/fastL4 { }
+    }
+    source 0.0.0.0/0
+    source-address-translation {
+        pool /Common/Snatpool_21.86.79.173
+        type snat
+    }
+    translate-address enabled
+    translate-port enabled
+}
+
+
+ltm pool /Common/Pool_ABC_159_8081 {
+    load-balancing-mode least-connections-member 
+    members {
+        /Common/21.86.57.104:8081 {
+	    address 21.86.57.104
+        }
+        /Common/21.86.57.105:8081 {
+            address 21.86.57.105
+        }
+    }
+    monitor /Common/tcp 
+    slow-ramp-time 300
+}
+
+

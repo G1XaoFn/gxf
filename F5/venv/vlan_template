@@ -1,0 +1,23 @@
+Value vlan_name (.*)
+Value path (/(\w+/)*)
+Value description (.*)
+Value tag (\d+)
+Value interface (\w+)
+Value tagging (\w+)
+
+Start
+ ^\s*net vlan\s*${path}${vlan_name}\s*{ -> Vlan
+
+Vlan
+ ^\s*description\s*${description}
+ ^\s*tag\s*${tagging}
+ ^\s*interfaces\s*{ -> Interface
+ ^#a new data table begin: -> Record Start
+
+Interface
+ ^\s*${interface}\s*{ -> Tag
+ ^\s*} -> Vlan
+
+Tag
+ ^\s*${tag}
+ ^\s*} -> Interface

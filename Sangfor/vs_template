@@ -1,0 +1,27 @@
+Value vs_name (\S+)
+Value ipprotocol (\S+)
+#defluat 0.0.0.0
+Value source (\S+)
+#关联ip_group
+Value destination (\S+)
+#关联service
+Value destination_port (\S+)
+Value service (\S+)
+Value snat_pool (\S+)
+#later change to Enabled\Disabled
+Value state (\S+)
+#later change to l4/l7
+Value vs_type (\S+)
+Value List ssl_profile (\S+)
+
+Start
+ ^\s*ssl_cli vs vs {\s*name="${vs_name}"} add -> VS
+
+VS
+ ^\s*ssl_cli vs.*type\s*{${ipprotocol}}\s*
+ ^\s*ssl_cli vs.*snat_pool\s*{"${snat_pool}"}\s*
+ ^\s*ssl_cli vs.*service\s*{"${service}"}
+ ^\s*ssl_cli vs.*mode\s*{${vs_type}}
+ ^\s*ssl_cli vs.*enable\s*{${state}}
+ ^\s*ssl_cli vs.*\[.*\]\s*ssl\s*ssl_profile\s*{"${ssl_profile}<.*>"}\s*add
+ ^#\s*ssl_cli vs vs {\s*name="\S*"} add -> Record Start

@@ -1,0 +1,17 @@
+Value selfip_name (.*)
+Value path (/(\w+/)*)
+Value ip_address (\d+\.\d+\.\d+\.\d+)
+Value netmask (\d+)
+Value vlan (.*)
+Value port_lockdown (\w+)
+Value traffic_group (.*)
+
+Start
+ ^\s*net self\s+${path}${selfip_name}\s*{ -> Selfip
+
+Selfip
+ ^\s*address\s*${ip_address}/${netmask}
+ ^\s*vlan\s*/(\w+/)*${vlan}\s*
+ ^\s*allow-service/s*${port_lockdown}
+ ^\s*traffic-group\s*/(\w+/)*${traffic_group}\s*
+ ^#a new data table begin: -> Record Start

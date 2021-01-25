@@ -1,0 +1,21 @@
+Value name (\S*)
+Value partition (\w+)
+Value defaultfrom_type (/(\w+/)*\w+)
+Value cookie_name (\w+)
+Value cookie_method (\w+)
+Value time_out (\d+)
+Value create_time (\S*)
+
+Start
+ ^ltm persistence source-addr\s+/${partition}/${name}\s*{ -> Addr
+ ^ltm persistence cookie\s+${cookie_name}\s*{ -> Cookie
+
+Addr
+ ^\s*defaults-from\s+${defaultfrom_type}
+ ^\s*timeout\s*${time_out}
+ ^\s*creation-time\s*{create_time}
+ ^#a new data table begin: -> Record Start
+
+Cookie
+ ^\s*method\s+${cookie_method}
+ ^#a new data table begin: -> Record Start

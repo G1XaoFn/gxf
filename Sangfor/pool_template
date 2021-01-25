@@ -1,0 +1,10 @@
+Value pool_name (\S+)
+Value state (\S+)
+Value lb_method (\S+)
+
+Start
+ ^\s*ssl_cli\s*pool\s*node_pool\s*{\s*name="${pool_name}"}\s*add -> Pool
+
+Pool
+ ^\s*ssl_cli\s*pool\s*node_pool\[.*\]\s*preferred\s*{${lb_method}}
+ ^#\s*ssl_cli\s*pool\s*node_pool\s*{\s*name="\S+"}\s*add -> Pool

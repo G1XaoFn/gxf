@@ -1,0 +1,8 @@
+Value vlan_name (\S+)
+Value vlan_tag (\d+)
+
+Start
+ ^\s*ssl_cli interface\s+\S+\s*{\s*name="${vlan_name}"\s*}\s*add -> Vlan
+
+Vlan
+ ^#\s*ssl_cli interface\s+\S+\s*{\s*name="\S+"\s*}\s*add -> Record Start

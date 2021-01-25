@@ -1,0 +1,15 @@
+Value name (\S+)
+Value defaultfrom_type (\S+)
+Value cookie_name (\S+)
+Value cookie_method (\S+)
+Value timeout (\d+)
+
+Start
+ ^\s*ssl_cli persist persist_method {\s*name="${name}"} add -> Persistence
+
+Persistence
+ ^\s*ssl_cli persist.*p_type {${defaultfrom_type}}\s*
+ ^\s*ssl_cli persist.*cookie_name {"${cookie_name}"}
+ ^\s*ssl_cli persist.*cookie_attr type {${cookie_method}}
+ ^\s*ssl_cli persist.*timeout {${timeout}}
+ ^#\s*ssl_cli persist persist_method {\s*name="\S*"} add -> Record Start

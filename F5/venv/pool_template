@@ -1,0 +1,19 @@
+Value pool_name (\w+)
+Value partition (\w+)
+Value description (.+)
+Value state ()
+Value fullpath (/(\w+/)*)
+Value lb_method (\S*)
+Value monitor (\w+)
+Value create_time (\S)
+
+Start
+ ^\s*ltm pool\s+${fullpath}${pool_name} -> Pool
+
+Pool
+ ^\s*load-balancing-mode\s+${lb_method}
+ ^\s*monitor\s+/(\w+/)*${monitor}
+ ^\s*description\s*${description}
+ ^\s*creation-time\s*${create_time}
+ ^#a new data table begin: -> Record Start
+

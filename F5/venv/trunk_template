@@ -1,0 +1,13 @@
+Value trunk_name (\S*)
+Value List interface (\S*)
+
+Start
+ ^\s*net trunk\s*${trunk_name}\s*{ -> Trunk
+
+Trunk
+ ^\s*interfaces\s*{ -> Interface
+ ^#a new data table begin: -> Record Start
+
+Interface
+ ^\s*} -> Trunk
+ ^\s*${interface}

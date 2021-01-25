@@ -1,0 +1,17 @@
+Value name (.*)
+Value partition (.*)
+Value List address (\d+\.\d+\.\d+\.\d+)
+#不知道长啥样
+Value create_time ()
+
+Start
+ ^\s*ltm snatpool\s*/${partition}/${name}\s*{ -> Snatpool
+
+Snatpool
+ ^\s*creation-time\s*${create_time}
+ ^\s*members\s*{ -> Members
+ ^#a new data table begin: -> Record Start
+
+Members
+ ^\s*/(\w+/)*${address}
+ ^\s*} -> Snatpool

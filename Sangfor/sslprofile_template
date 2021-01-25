@@ -1,0 +1,41 @@
+Value name (\S+)
+Value server_cert_shang (\S+)
+Value server_cert_sign (\S+)
+Value server_cert_pass (\S+)
+Value List cipher (\S+)
+Value List proto (\S+)
+Value sess_cache_enable (\S+)
+Value sess_cache_size (\S+)
+Value sess_cache_timeout (\S+)
+Value output_cert_chain_enable (\S+)
+Value server_name (\S+)
+Value server_cert_ecdsa (\S+)
+Value cli_auth_enable (\S+)
+Value auth_cert_method (\S+)
+Value auth_fail_method (\S+)
+Value cert_chain_depth (\S+)
+Value ca_cert (\S+)
+Value type (\S+)
+
+Start
+ ^\s*ssl_cli\s*ssl_profile\s*ssl_profile\s*{\s*name="${name}"\s*.*}\s*add -> Profile
+
+Profile
+ ^\s*ssl_cli\s*ssl_profile\s*ssl_profile\[.*\]\s*server_auth\s*server_cert_shang\s*{"${server_cert_shang}"}
+ ^\s*ssl_cli\s*ssl_profile\s*ssl_profile\[.*\]\s*server_auth\s*server_cert_sign\s*{"${server_cert_sign}"}
+ ^\s*ssl_cli\s*ssl_profile\s*ssl_profile\[.*\]\s*server_auth\s*server_cert_pass\s*{"${server_cert_pass}"}
+ ^\s*ssl_cli\s*ssl_profile\s*ssl_profile\[.*\]\s*server_auth\s*cipher\s*{"${cipher}"}\s*add
+ ^\s*ssl_cli\s*ssl_profile\s*ssl_profile\[.*\]\s*server_auth\s*proto\s*{${proto}}\s*add
+ ^\s*ssl_cli\s*ssl_profile\s*ssl_profile\[.*\]\s*server_auth\s*sess_cache_enable\s*{${sess_cache_enable}}
+ ^\s*ssl_cli\s*ssl_profile\s*ssl_profile\[.*\]\s*server_auth\s*sess_cache_size\s*{${sess_cache_size}}
+ ^\s*ssl_cli\s*ssl_profile\s*ssl_profile\[.*\]\s*server_auth\s*sess_cache_timeout\s*{${sess_cache_timeout}}
+ ^\s*ssl_cli\s*ssl_profile\s*ssl_profile\[.*\]\s*server_auth\s*output_cert_chain_enable\s*{${output_cert_chain_enable}}
+ ^\s*ssl_cli\s*ssl_profile\s*ssl_profile\[.*\]\s*server_auth\s*server_name\s*{"${server_name}"}
+ ^\s*ssl_cli\s*ssl_profile\s*ssl_profile\[.*\]\s*server_auth\s*server_cert_ecdsa\s*{"${server_cert_ecdsa}"}
+ ^\s*ssl_cli\s*ssl_profile\s*ssl_profile\[.*\]\s*client_auth\s*cli_auth_enable\s*{${cli_auth_enable}}
+ ^\s*ssl_cli\s*ssl_profile\s*ssl_profile\[.*\]\s*client_auth\s*auth_cert_method\s*{${auth_cert_method}}
+ ^\s*ssl_cli\s*ssl_profile\s*ssl_profile\[.*\]\s*client_auth\s*auth_fail_method\s*{${auth_fail_method}}
+ ^\s*ssl_cli\s*ssl_profile\s*ssl_profile\[.*\]\s*client_auth\s*cert_chain_depth\s*{${cert_chain_depth}}
+ ^\s*ssl_cli\s*ssl_profile\s*ssl_profile\[.*\]\s*client_auth\s*ca_cert\s*{"${ca_cert}"}
+ ^\s*ssl_cli\s*ssl_profile\s*ssl_profile\[.*\]\s*type\s*{${type}}
+ ^#\s*ssl_cli\s*ssl_profile\s*ssl_profile\s*{\s*name="\S+"\s*.*}\s*add -> Record Start

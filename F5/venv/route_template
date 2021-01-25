@@ -1,0 +1,12 @@
+Value route_name (\S*)
+Value path (/(\w+/)*)
+Value gateway (\d+\.\d+\.\d+\.\d+)
+Value network (\S*)
+
+Start
+ ^\s*net route\s+${path}${route_name}\s*{ -> Route
+
+Route
+ ^\s*gw\s*${gateway}
+ ^\s*network\s+${network}\s*
+ ^#a new data table begin: -> Record Start

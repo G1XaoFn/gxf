@@ -1,0 +1,19 @@
+Value name (\S+)
+Value type (\S+)
+Value public_key (.*)
+Value private_key (.*)
+Value private_key_passwd (\S+)
+Value valid (\d+)
+Value key_pass (\S+)
+
+Start
+ ^\s*ssl_cli server_cert cert {\s*name="${name}"} add -> Cert
+
+Cert
+ ^\s*ssl_cli server_cert cert\[ name="\S+"\] type {${type}}\s*
+ ^\s*echo ".*-----BEGIN CERTIFICATE-----${public_key}-----END CERTIFICATE-----.*" \| ssl_cli server_cert cert\[ name=".*"\] public_key\s*
+ ^\s*echo ".*-----BEGIN RSA PRIVATE KEY-----${private_key}-----END RSA PRIVATE KEY-----.*" \| ssl_cli server_cert cert\[ name="\S+"\] private_key\s*
+ ^\s*ssl_cli server_cert cert\[ name="\S+"\] private_key_passwd {"${private_key_passwd}"}
+ ^\s*ssl_cli server_cert cert\[ name="\S+"\] valid {"${valid}"}
+ ^\s*ssl_cli server_cert cert\[ name="\S+"\] key_pass {${key_pass}}
+ ^#\s*ssl_cli server_cert cert {\s*name="\S+"} add -> Record Start

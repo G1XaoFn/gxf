@@ -1,0 +1,9 @@
+Value name (\S+)
+Value isEnable (\S+)
+
+
+Start
+ ^\s*ssl_cli snat_pool group {\s*name="${name}"} add -> Snatpool
+
+Snatpool
+ ^#\s*ssl_cli snat_pool group {\s*name="\S*"} add -> Record Start

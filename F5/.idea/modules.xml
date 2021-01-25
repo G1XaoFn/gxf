@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../PythonNotes/.idea/PythonNotes.iml" filepath="$PROJECT_DIR$/../PythonNotes/.idea/PythonNotes.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Sangfor/.idea/Sangfor.iml" filepath="$PROJECT_DIR$/../Sangfor/.idea/Sangfor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/test.iml" filepath="$PROJECT_DIR$/.idea/test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../textfsm-master/.idea/textfsm-master.iml" filepath="$PROJECT_DIR$/../textfsm-master/.idea/textfsm-master.iml" />
+    </modules>
+  </component>
+</project>

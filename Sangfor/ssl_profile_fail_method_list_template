@@ -1,0 +1,21 @@
+Value Filldown profile_name (\S+)
+Value fail_method_list_name (\S+)
+Value auth_fail_errno (\S+)
+Value fail_method (\S+)
+Value return_user_define_page (\S+)
+Value type (\S+)
+
+Start
+ ^\s*ssl_cli\s*ssl_profile\s*ssl_profile\s*{\s*name="${profile_name}"\s*.*}\s*add -> Profile
+
+Profile
+ ^\s*ssl_cli\s*ssl_profile\s*ssl_profile\s*\[.*\]\s*fail_method_list\s*{\s*auth_fail_errno="${fail_method_list_name}"}\s*add -> Inner
+ ^#\s*ssl_cli\s*ssl_profile\s*ssl_profile\s*{\s*name="\S+"\s*.*}\s*add -> Start
+
+Inner
+ ^\s*ssl_cli\s*ssl_profile\s*ssl_profile\s*\[.*\]\s*fail_method_list\[.*\]\s*auth_fail_errno\s*{"${auth_fail_errno}"}
+ ^\s*ssl_cli\s*ssl_profile\s*ssl_profile\s*\[.*\]\s*fail_method_list\[.*\]\s*fail_method\s*{${fail_method}}
+ ^\s*ssl_cli\s*ssl_profile\s*ssl_profile\s*\[.*\]\s*fail_method_list\[.*\]\s*return_user_define_page\s*{"${return_user_define_page}"}
+ ^\s*ssl_cli\s*ssl_profile\s*ssl_profile\s*\[.*\]\s*fail_method_list\[.*\]\s*type\s*{${type}}
+ ^#\s*ssl_cli\s*ssl_profile\s*ssl_profile\s*\[.*\]\s*fail_method_list\s*{\s*auth_fail_errno="\S+"}\s*add -> Record Profile
+ ^#\s*ssl_cli\s*ssl_profile\s*ssl_profile\s*{\s*name="\S+"\s*.*}\s*add -> Record Start

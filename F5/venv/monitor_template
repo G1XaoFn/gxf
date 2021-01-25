@@ -1,0 +1,29 @@
+Value name (\S*)
+Value partition (\S*)
+Value type (\w+)
+Value interval (\d+)
+Value timeout (\d+)
+Value send_string (.*)
+Value receive_string (.*)
+Value receive_disable_string (.*)
+#不知道长啥样
+Value reverse (\w+)
+#不知道长啥样
+Value transparent (\w+)
+Value description (.*)
+Value create_time (\S*)
+
+Start
+ ^\s*ltm monitor\s*${type}\s*/${partition}/${name}\s*{ -> Monitor
+
+Monitor
+ ^\s*interval\s*${interval}
+ ^\s*timeout\s*${timeout}
+ ^\s*send\s*${send_string}\s*
+ ^\s*recv\s+${receive_string}\s*
+ ^\s*recv-disable\s+${receive_disable_string}\s*
+ ^\s*description\s+${description}
+ ^\s*creation-time\s*${create_time}
+ ^\s*reverse\s*${reverse}
+ ^\s*transparent\s+${transparent}
+ ^#a new data table begin: -> Record Start

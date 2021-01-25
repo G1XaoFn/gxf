@@ -1,0 +1,9 @@
+Value name (\S+)
+Value port (\d+)
+
+Start
+ ^\s*ssl_cli service.*{\s*name="${name}"}\s*add -> Service
+
+Service
+ ^\s*ssl_cli service.*serv_port_scope\s*{\s*from=${port}}
+ ^#\s*ssl_cli service.*{\s*name=".*"}\s*add -> Record Start

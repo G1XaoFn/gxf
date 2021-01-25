@@ -1,0 +1,20 @@
+Value device_name ()
+Value Filldown member_pool (\S+)
+#member_address+member_port
+Value member_name (\S+)
+Value member_port (\S+)
+Value address (\S+)
+Value state (\S+)
+
+Start
+ ^\s*ssl_cli\s*pool\s*node_pool\s*{\s*name="${member_pool}"}\s*add\s* -> Pool
+
+Pool
+ ^\s*ssl_cli\s*pool\s*node_pool\[.*\]\s*nodes\s*{\s*addr="${address}".*}\s*add\s* -> Node
+ ^#\s*ssl_cli\s*pool\s*node_pool\s*{\s*name="\S+"}\s*add -> Start
+
+Node
+ ^\s*ssl_cli\s*pool\s*node_pool\[.*\]\s*nodes\[.*\]\s*port\s*{${member_port}}
+ ^\s*ssl_cli\s*pool\s*node_pool\[.*\]\s*nodes\[.*\]\s*status\s*{${state}}
+ ^#\s*ssl_cli\s*pool\s*node_pool\[.*\]\s*nodes\s*{\s*addr="\S+".*}\s*add -> Record Pool
+ ^#\s*ssl_cli\s*pool\s*node_pool\s*{\s*name="\S+"}\s*add -> Record Start

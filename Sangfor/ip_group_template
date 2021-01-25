@@ -1,0 +1,9 @@
+Value name (\S+)
+Value ip (\S+)
+
+Start
+ ^\s*ssl_cli ipg\s*ip_group\s*{\s*name="${name}"}\s*add -> IpGroup
+
+IpGroup
+ ^ssl_cli\s*ipg\s*ip_group\[.*\]\s*link_attr\[.*\]\s*ip_addr\s*{"${ip}"}\s*add
+ ^#\s*ssl_cli ipg\s*ip_group\s*{\s*name="\S+"}\s*add -> Record Start
